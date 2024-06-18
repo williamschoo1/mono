@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvu33i0a12me6"]
+
+[ext_resource type="PackedScene" uid="uid://c0djlwk4bcyq3" path="res://topless.glb" id="1_r4587"]
+
+[node name="topless" instance=ExtResource("1_r4587")]

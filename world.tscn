@@ -1,0 +1,79 @@
+[gd_scene load_steps=14 format=3 uid="uid://b2vd7ek77qikk"]
+
+[ext_resource type="PackedScene" uid="uid://3q3ugkm1tywl" path="res://maze.tscn" id="1_iddda"]
+[ext_resource type="Script" path="res://world.gd" id="1_lisyu"]
+[ext_resource type="Material" uid="uid://bn7860c2bepht" path="res://material/screencolour.tres" id="2_q6k32"]
+[ext_resource type="Texture2D" uid="uid://dcmofrr6cr8i8" path="res://topless_brick_atlas.png" id="3_xe3iq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_nem0o"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_4po57"]
+sky_material = SubResource("ProceduralSkyMaterial_nem0o")
+
+[sub_resource type="Environment" id="Environment_3ryyk"]
+background_mode = 2
+sky = SubResource("Sky_4po57")
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.05
+ambient_light_energy = 0.02
+tonemap_mode = 2
+glow_enabled = true
+fog_light_color = Color(0.754576, 0.531893, 0.316361, 1)
+fog_light_energy = 0.02
+fog_density = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_l5cow"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xnvuk"]
+transparency = 1
+albedo_color = Color(0.0117647, 0.027451, 0.027451, 0.909804)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cd1rt"]
+material = SubResource("StandardMaterial3D_xnvuk")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lx8gy"]
+transparency = 1
+albedo_texture = ExtResource("3_xe3iq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pjscy"]
+albedo_color = Color(0.882353, 1, 1, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lj3hr"]
+
+[node name="world" type="Node"]
+script = ExtResource("1_lisyu")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3ryyk")
+
+[node name="Node3D" parent="." instance=ExtResource("1_iddda")]
+visible = false
+visibility_parent = NodePath("../mask")
+
+[node name="mask" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.545, 2.10311, 6.93408)
+material_override = ExtResource("2_q6k32")
+mesh = SubResource("SphereMesh_l5cow")
+
+[node name="mist" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 2, 0, 0, 0, 10, 6.29311, 1, 0)
+mesh = SubResource("BoxMesh_cd1rt")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.538256, 0.142638, 0.830623, 0, 0.985574, -0.169246, -0.842781, 0.0910978, 0.530491, 7.76437, 2.26809, 7.08872)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.990261, 7.84771)
+material_override = SubResource("StandardMaterial3D_lx8gy")
+size = Vector3(2, 2, 2)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
+operation = 2
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 7.93762)
+material_override = SubResource("StandardMaterial3D_pjscy")
+mesh = SubResource("PlaneMesh_lj3hr")

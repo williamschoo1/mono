@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bn7860c2bepht"]
+
+[ext_resource type="Shader" path="res://material/screencolour.gdshader" id="1_353lh"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_353lh")
