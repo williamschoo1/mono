@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmo5tw706yxqf"]
+
+[ext_resource type="Script" path="res://arrow.gd" id="1_7at53"]
+[ext_resource type="Texture2D" uid="uid://uuwgsyjtkfbm" path="res://material/arrow.tres" id="2_20ohi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5g46k"]
+size = Vector3(0.55, 0.25, 0.1)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_7at53")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(54, 23)
+
+[node name="Label" type="Label" parent="SubViewport"]
+offset_right = 54.0
+offset_bottom = 23.0
+text = " arrow"
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+texture = ExtResource("2_20ohi")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_5g46k")
+
+[connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]

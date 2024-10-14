@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://deubb87w15hyd"]
+
+[ext_resource type="Script" path="res://botcam.gd" id="1_x55te"]
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.066, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.892586, 0.450878, 0, -0.450878, 0.892586, 0, 0.7, 0.5)
+script = ExtResource("1_x55te")
