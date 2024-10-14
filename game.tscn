@@ -1,0 +1,118 @@
+[gd_scene load_steps=12 format=3 uid="uid://b7a7khrnq6lyf"]
+
+[ext_resource type="PackedScene" uid="uid://3q3ugkm1tywl" path="res://maze.tscn" id="1_2ee8t"]
+[ext_resource type="Script" path="res://game.gd" id="1_nw584"]
+[ext_resource type="PackedScene" uid="uid://bksnmhs6od8ns" path="res://diceroll.tscn" id="3_lbrgi"]
+[ext_resource type="Script" path="res://h_spawn.gd" id="5_xmivc"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jcvtw"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_xue43"]
+sky_material = SubResource("ProceduralSkyMaterial_jcvtw")
+
+[sub_resource type="Environment" id="Environment_w22aj"]
+background_mode = 2
+background_energy_multiplier = 0.19
+sky = SubResource("Sky_xue43")
+ambient_light_sky_contribution = 0.94
+ambient_light_energy = 0.83
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_o8s2w"]
+size = Vector3(1.5, 0.1, 1.5)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pmwp4"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 1.5
+
+[sub_resource type="Theme" id="Theme_g45x4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oiq7g"]
+font_color = Color(1, 1, 1, 0.282353)
+outline_size = 1
+
+[node name="Node" type="Node"]
+script = ExtResource("1_nw584")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_w22aj")
+
+[node name="test" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.00185004, 0.999998, 0, -0.999998, -0.00185004, 0, 3.014, 0)
+current = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="test"]
+transform = Transform3D(1, 0, 0, 0, 1, 8.14907e-10, 0, -6.98492e-10, 1, 0, 0, 0)
+visible = false
+light_color = Color(0.830275, 0.685715, 0.561556, 1)
+light_energy = 1.293
+spot_range = 1.85952
+spot_angle = 37.2118
+
+[node name="OmniLight3D" type="OmniLight3D" parent="test"]
+light_color = Color(0.830275, 0.685715, 0.561556, 1)
+light_energy = 1.293
+
+[node name="Node3D" parent="." instance=ExtResource("1_2ee8t")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1.553, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_o8s2w")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("CylinderMesh_pmwp4")
+
+[node name="Node3D2" parent="." instance=ExtResource("3_lbrgi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.334)
+
+[node name="indent" type="Node3D" parent="."]
+
+[node name="h_spawn" type="Node3D" parent="indent"]
+script = ExtResource("5_xmivc")
+
+[node name="ui" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme = SubResource("Theme_g45x4")
+
+[node name="dice_score" type="Label" parent="ui"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -39.0
+offset_right = 39.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "steps remain:"
+horizontal_alignment = 1
+
+[node name="hints" type="Label" parent="ui"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 172.0
+grow_vertical = 0
+text = "press R to roll the dice"
+label_settings = SubResource("LabelSettings_oiq7g")
+
+[node name="step_count" type="Label" parent="ui"]
+layout_mode = 0
+offset_left = 640.0
+offset_right = 680.0
+offset_bottom = 23.0
+
+[connection signal="roll_finished" from="Node3D2/Die" to="." method="_on_die_roll_finished"]
+
+[editable path="Node3D"]
+[editable path="Node3D2"]

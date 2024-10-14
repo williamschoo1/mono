@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bksnmhs6od8ns"]
+
+[ext_resource type="PackedScene" uid="uid://dgb8nb21it0fn" path="res://die.tscn" id="1_cgub6"]
+[ext_resource type="Script" path="res://diceroll.gd" id="1_mqw5h"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bb23g"]
+size = Vector2(10, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7bwp6"]
+size = Vector3(10, 0.2, 10)
+
+[sub_resource type="Environment" id="Environment_8mxmp"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_mqw5h")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_bb23g")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_7bwp6")
+
+[node name="Die" parent="." instance=ExtResource("1_cgub6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.67046, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.999981, -0.00624821, -1.72269e-09, -0.00447546, 0.716264, 0.697815, -0.0043601, 0.697802, -0.716278, 0, 6.62876, -7.30364)
+environment = SubResource("Environment_8mxmp")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.76277, -7.70532e-08)
+light_color = Color(0.754576, 0.531893, 0.316361, 1)
+shadow_enabled = true
