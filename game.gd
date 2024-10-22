@@ -117,17 +117,17 @@ var node:Object
 #var semaphore = Semaphore.new() #didn't work as expected.
 var mutex = Mutex.new() #doesn't change any order of execution.
 
-
-func no_iterate(ts, tn:Object):
+#player_tcam = tn.get_child(1).get_child(0)
+func no_iterate(ts, tn:CharacterBody3D):
 	match ts:
 		"player":
-			player_tcam = tn.get_child(1).get_child(0)
+			player_tcam = tn.get_child(2).get_child(0)
 		"ai_1":
-			ai_1_tcam = tn.get_child(1).get_child(0)
+			ai_1_tcam = tn.get_child(2).get_child(0)
 		"ai_2":
-			ai_2_tcam = tn.get_child(1).get_child(0)
+			ai_2_tcam = tn.get_child(2).get_child(0)
 		"ai_3":
-			ai_3_tcam = tn.get_child(1).get_child(0)
+			ai_3_tcam = tn.get_child(2).get_child(0)
 
 
 # if a signal is defined with argument, emitting it with value will make the function take the argument in?(BY NAME OR BY ORDER?) positional arguments.
@@ -246,24 +246,24 @@ func _process(delta):
 	if statics.rolled == true:
 		#perspective()
 		turn_tcam.current = true
-	if count == 0 and statics.rolled == true:
+	if statics.count == 0 and statics.rolled == true:
 		statics.rolled = false
 		statics.zeroed = true
 		#when count reaches 0, there will be no forced current on tcam, which can then give current back to hcam.
 		statics.can_roll = true
 		last.emit()
 
-var count:int
+#var count:int
 
 func _on_die_roll_finished(value):
-	count = value
+	statics.count = value
 	statics.zeroed = false
-	$ui/step_count.text = str(count)
+	$ui/step_count.text = str(statics.count)
 
 func counting():
-	if count >= 1:
-		count = count - 1
-		$ui/step_count.text = str(count)
+	if statics.count >= 1:
+		statics.count = statics.count - 1
+		$ui/step_count.text = str(statics.count)
 
 func turn_changed():
 	switch_turn()

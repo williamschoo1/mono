@@ -5,6 +5,7 @@ static var can_roll = true
 static var doing:bool
 static var rolled:bool = false
 static var zeroed:bool
+static var count:int = 0
 
 static var zminus:bool
 static var zplus:bool
