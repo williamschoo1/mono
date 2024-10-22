@@ -20,7 +20,7 @@ var out = [Vector3(0.5, 0, 0.5), Vector3(-0.5, 0, 0.5), Vector3(0.5, 0, -0.5), V
 var astar = AStar3D.new()
 var outPos = out[randi() % out.size()]
 
-
+var end = preload("res://destination.tscn")
 
 
 #func mobility():
@@ -113,6 +113,9 @@ func _ready():
 	#set_cell_item(local_to_map(spawnpoint[0]), 1, 22) # for manually record orientstion # double with ori of 0 is blocking left and right.
 	#mobility()
 	know_token()
+	var endpoint = end.instantiate()
+	add_child(endpoint)
+	endpoint.position = outPos
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

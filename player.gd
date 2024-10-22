@@ -14,6 +14,7 @@ func _ready():
 	#grid()
 	await get_tree().process_frame
 	statics.tstate.emit(token_state, self)
+	arm = get_child(2)
 	set_physics_process(true)
 
 #abs(turner.position - clicked.position) Use this to determine the direction going to tween to?
@@ -23,8 +24,10 @@ func _ready():
 @onready var grid = get_parent()#this should be '..' which means parent.but will do it later.
 
 #count decrease per press
-var speed:int = 6
+var speed:int = 4
+var acceleration:int = 5
 var target_velocity:Vector3 = Vector3.ZERO
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _physics_process(delta):
 	#var direction = Vector3.ZERO
@@ -45,12 +48,22 @@ func _physics_process(delta):
 	#velocity = target_velocity
 	#move_and_slide()
 	# above code provides rectagular movement that does not follow the perspective.
-	pass
+	#velocity.y += -gravity * delta
+	get_move_input(delta)
+	move_and_slide()
+
+var arm:Node3D
 
 
-
-
-
+func get_move_input(delta):
+	velocity.y = 0
+	var input = Input.get_vector("a","d","w","s")
+	var dir = Vector3(input.x, 0, input.y).rotated(Vector3.UP, arm.rotation.y)
+	velocity = lerp(velocity, dir * speed, acceleration * delta)
+	velocity.y = 0
+	#with them the y seems to descend each time
+	#var dir = Vector3(input.x, 0, input.y)
+	#velocity = dir
 
 
 
