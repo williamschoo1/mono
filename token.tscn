@@ -1,17 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://yukmpv4fcchr"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_mv2y1"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_71g65"]
-height = 0.05
-radius = 0.4
+[ext_resource type="CylinderMesh" uid="uid://c11o56emutf4p" path="res://material/token_cyl.tres" id="1_bnhjx"]
+[ext_resource type="Shape3D" uid="uid://0mhqbefod86r" path="res://material/token_col.tres" id="2_0ijgu"]
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.8, 0, 0, 0, 0.02, 0, 0, 0, 0.8, 0, 0, 0)
-mesh = SubResource("CylinderMesh_mv2y1")
+mesh = ExtResource("1_bnhjx")
 skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CylinderShape3D_71g65")
+shape = ExtResource("2_0ijgu")
