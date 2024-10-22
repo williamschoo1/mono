@@ -3,14 +3,15 @@
 [sub_resource type="CylinderMesh" id="CylinderMesh_mv2y1"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_71g65"]
+height = 0.05
+radius = 0.4
 
-[node name="token" type="Node3D"]
+[node name="CharacterBody3D" type="CharacterBody3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.8, 0, 0, 0, 0.02, 0, 0, 0, 0.8, 0, 0, 0)
 mesh = SubResource("CylinderMesh_mv2y1")
+skeleton = NodePath("../..")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CylinderShape3D_71g65")
