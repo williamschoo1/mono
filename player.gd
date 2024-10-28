@@ -24,7 +24,7 @@ func _ready():
 @onready var grid = get_parent()#this should be '..' which means parent.but will do it later.
 
 #count decrease per press
-var speed:int = 4
+var speed:int = 3
 var acceleration:int = 5
 var target_velocity:Vector3 = Vector3.ZERO
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -49,8 +49,9 @@ func _physics_process(delta):
 	#move_and_slide()
 	# above code provides rectagular movement that does not follow the perspective.
 	#velocity.y += -gravity * delta
-	get_move_input(delta)
-	move_and_slide()
+	if statics.count != 0 and statics.rolled == true:
+		get_move_input(delta)
+		move_and_slide()
 
 var arm:Node3D
 

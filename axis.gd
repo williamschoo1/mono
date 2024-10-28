@@ -16,7 +16,7 @@ var itemindex = randi_range(0, 2)
 var ori = [0, 10, 16, 22]
 
 var spawnpoint = [Vector3(-4.5, 0.1, -4.5), Vector3(4.5, 0.1, -4.5), Vector3(4.5, 0.1, 4.5), Vector3(-4.5, 0.1, 4.5)] # array starts from 0
-var out = [Vector3(0.5, 0, 0.5), Vector3(-0.5, 0, 0.5), Vector3(0.5, 0, -0.5), Vector3(-0.5, 0, -0.5)] # +-, +-, ++, ++, ++, +-
+var out = [Vector3(0.5, 0.1, 0.5), Vector3(-0.5, 0.1, 0.5), Vector3(0.5, 0.1, -0.5), Vector3(-0.5, 0.1, -0.5)] # +-, +-, ++, ++, ++, +-
 var astar = AStar3D.new()
 var outPos = out[randi() % out.size()]
 
@@ -113,9 +113,14 @@ func _ready():
 	#set_cell_item(local_to_map(spawnpoint[0]), 1, 22) # for manually record orientstion # double with ori of 0 is blocking left and right.
 	#mobility()
 	know_token()
+	await get_tree().process_frame
 	var endpoint = end.instantiate()
-	add_child(endpoint)
 	endpoint.position = outPos
+	add_child(endpoint)
+	#await get_tree().process_frame
+	#move_child(endpoint, 4)
+	#get_child(3).add_sibling(endpoint)
+	#just trying to make endpoint the last child of axis
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

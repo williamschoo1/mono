@@ -40,7 +40,7 @@ func h():
 	add_child(human_cam) 
 	human_cam.reparent(human_ins)
 	if human_ins.human_state.contains("player"):
-		human_cam.set_script(load("res://cam_gimbal.gd"))
+		human_cam.set_script(load("res://human_cam.gd"))
 	human_ins.rotation.y = deg_to_rad(cam_dict[human_pos[maze.pos]])
 	#pos + 1
 	#working = false
