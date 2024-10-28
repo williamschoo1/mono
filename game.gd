@@ -30,9 +30,10 @@ signal last
 func _enter_tree():
 	statics.tstate.connect(no_iterate)
 	statics.hstate.connect(h_match)
-	statics.moved.connect(counting)
+	#statics.moved.connect(counting)
 	last.connect(turn_changed)
 	statics.doing = false
+	statics.finished.connect(final)
 	#corder = corder.append_array(order)
 	#pass
 
@@ -238,20 +239,35 @@ func perspective():
 @onready var die_cam = $Node3D2/Camera3D
 
 #the best way is probably keep awaiting
-func _process(delta):
+#func _process(delta):
 	#print("first")
-	if turn_hcam.current == true:
-		$ui/hints.visible = true
-	else: $ui/hints.visible = false
-	if statics.rolled == true:
+	#if turn_hcam.current == true:
+		#$ui/hints.visible = true
+		#$Timer.set_process(false)
+	#else:
+		#$Timer.set_process(true)
+		#$ui/hints.visible = false
+		#
+	#if statics.rolled == true:
 		#perspective()
-		turn_tcam.current = true
+		#turn_tcam.current = true
+	#if statics.count == 0 and statics.rolled == true:
+		#statics.rolled = false
+		#statics.zeroed = true
+		#when count reaches 0, there will be no forced current on tcam, which can then give current back to hcam.
+		#statics.can_roll = true
+		#last.emit()
+
+
+func _process(delta):
 	if statics.count == 0 and statics.rolled == true:
 		statics.rolled = false
-		statics.zeroed = true
-		#when count reaches 0, there will be no forced current on tcam, which can then give current back to hcam.
 		statics.can_roll = true
-		last.emit()
+		$ui/hints.visible = true
+	if turn_tcam.current == true:
+		$Timer.set_process(true)
+	else:
+		$Timer.set_process(false)
 
 #var count:int
 
@@ -259,12 +275,47 @@ func _on_die_roll_finished(value):
 	statics.count = value
 	statics.zeroed = false
 	$ui/step_count.text = str(statics.count)
+	$Timer.wait_time = statics.count
+	$Timer.start(statics.count)
+	$Timer.paused = true
+	turn_tcam.current = true
+	$ui/hints.visible = false
 
-func counting():
-	if statics.count >= 1:
-		statics.count = statics.count - 1
-		$ui/step_count.text = str(statics.count)
+
+
+
+
+
+
 
 func turn_changed():
 	switch_turn()
 	perspective()
+
+
+#func _on_standard_timeout():
+	#print("timeout")
+	#if statics.count > 0.1 or statics.count == 0.1: # >= 0.1
+		#statics.count -= 0.1#= statics.count - 0.1
+		#print("now i become",statics.count)
+		#$ui/step_count.text = str(statics.count)
+
+func _on_timer_timeout():
+	statics.count -= statics.count
+	$ui/step_count.text = str(statics.count)
+	$Timer/standard.paused = true
+
+
+func _on_standard_timeout():
+	print("timeout")
+	if statics.count > 0.1 or statics.count == 0.1: # >= 0.1
+		statics.count -= 0.1#= statics.count - 0.1
+		print("now i become",statics.count)
+		$ui/step_count.text = str(statics.count)
+
+
+func final():
+	$ui/win.visible = true
+	get_tree().paused = true
+	await get_tree().create_timer(0.2).timeout
+	get_tree().quit()

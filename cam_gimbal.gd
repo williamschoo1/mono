@@ -6,7 +6,11 @@ func _ready():
 	print("cam", get_index(), get_parent().name)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
+
+
+@onready var cam:Camera3D = $happy
+
 
 
 # create a plane mesh (make it root) and instatiate token for testing.
@@ -16,4 +20,9 @@ func _input(event):
 			rotate(Vector3.UP, -event.relative.x * 0.001)#event.relative.x * 0.001)
 
 
+func _process(delta):
+	#if cam == null:
+		#cam = get_child(0)
+	if cam.current == true:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 

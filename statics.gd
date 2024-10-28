@@ -5,7 +5,7 @@ static var can_roll = true
 static var doing:bool
 static var rolled:bool = false
 static var zeroed:bool
-static var count:int = 0
+static var count:float = 0.0
 
 static var zminus:bool
 static var zplus:bool
@@ -72,3 +72,7 @@ static var arrow_clicked: Signal = (func():
 static var moved: Signal = (func():
 	(statics as Object).add_user_signal("moved")
 	return Signal(statics, "moved")).call()
+
+static var finished: Signal = (func():
+	(statics as Object).add_user_signal("finished")
+	return Signal(statics, "finished")).call()
